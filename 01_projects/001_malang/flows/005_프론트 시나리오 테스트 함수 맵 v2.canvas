@@ -1,0 +1,28 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# 프론트 시나리오 테스트 함수 맵(v2)\n상위 개요 캔버스","x":240,"y":-140,"width":520,"height":120,"color":"2"},
+		{"id":"boot","type":"text","text":"부트스트랩\nissueToken -> start/sync -> connectRealtime","x":260,"y":20,"width":480,"height":120,"color":"2"},
+		{"id":"router","type":"text","text":"이벤트 라우터\nhandleRealtimeMessage","x":300,"y":200,"width":400,"height":110,"color":"2"},
+		{"id":"a","type":"text","text":"기능 A\n사용자 발화 -> 슬롯 판정 -> user.final","x":-180,"y":400,"width":360,"height":110,"color":"4"},
+		{"id":"b","type":"text","text":"기능 B\n모델 응답 완료 -> model.done","x":300,"y":400,"width":360,"height":110,"color":"6"},
+		{"id":"c","type":"text","text":"기능 C\napplyFsmActions 분기","x":300,"y":600,"width":360,"height":110,"color":"3"},
+		{"id":"file-a","type":"file","file":"01_projects/001_malang/flows/canvas/001_프론트 시나리오 테스트 워크플로우 A 사용자 발화.canvas","x":-520,"y":380,"width":300,"height":150,"color":"4"},
+		{"id":"file-b","type":"file","file":"01_projects/001_malang/flows/canvas/002_프론트 시나리오 테스트 워크플로우 B 모델 응답.canvas","x":820,"y":160,"width":320,"height":150,"color":"6"},
+		{"id":"file-c","type":"file","file":"01_projects/001_malang/flows/canvas/003_프론트 시나리오 테스트 워크플로우 C FSM 액션.canvas","x":320,"y":1020,"width":320,"height":150,"color":"3"},
+		{"id":"d","type":"text","text":"기능 D\n수동 테스트 진입점","x":840,"y":600,"width":300,"height":110,"color":"5"},
+		{"id":"file-d","type":"file","file":"01_projects/001_malang/flows/canvas/004_프론트 시나리오 테스트 워크플로우 D 수동 테스트.canvas","x":840,"y":1020,"width":320,"height":150,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"boot","fromSide":"bottom","toNode":"router","toSide":"top"},
+		{"id":"e2","fromNode":"router","fromSide":"bottom","toNode":"a","toSide":"top"},
+		{"id":"e3","fromNode":"router","fromSide":"bottom","toNode":"b","toSide":"top"},
+		{"id":"e4","fromNode":"router","fromSide":"bottom","toNode":"d","toSide":"top"},
+		{"id":"e5","fromNode":"a","fromSide":"bottom","toNode":"c","toSide":"top"},
+		{"id":"e6","fromNode":"b","fromSide":"bottom","toNode":"c","toSide":"top"},
+		{"id":"e7","fromNode":"d","fromSide":"left","toNode":"c","toSide":"right"},
+		{"id":"e8","fromNode":"a","fromSide":"left","toNode":"file-a","toSide":"right"},
+		{"id":"e9","fromNode":"b","fromSide":"right","toNode":"file-b","toSide":"left"},
+		{"id":"e10","fromNode":"c","fromSide":"right","toNode":"file-c","toSide":"left"},
+		{"id":"e11","fromNode":"d","fromSide":"right","toNode":"file-d","toSide":"left"}
+	]
+}

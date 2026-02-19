@@ -1,0 +1,22 @@
+{
+	"nodes":[
+		{"id":"t","type":"text","text":"# 기능 B\n모델 응답 완료 후 후속 처리","x":260,"y":-120,"width":520,"height":120,"color":"6"},
+		{"id":"b1","type":"text","text":"1) response.done(purpose=fsm_reply)","x":300,"y":40,"width":420,"height":90,"color":"6"},
+		{"id":"b2","type":"text","text":"2) assistantText 추출/저장\n- latestAssistantText\n- collectedUtterances\n- latestStaffEnrichment(ko 기본)","x":300,"y":180,"width":420,"height":180,"color":"6"},
+		{"id":"b3","type":"text","text":"3) requestAutoHintIfNeeded\n- responseId dedupe\n- 조건 충족 시 requestHints","x":-160,"y":420,"width":360,"height":150,"color":"5"},
+		{"id":"b4","type":"text","text":"4) requestHints\n-> /api/v2/hints","x":-160,"y":620,"width":360,"height":100,"color":"5"},
+		{"id":"b5","type":"text","text":"5) requestStaffTextEnrichment\n-> response.create(text_enrichment)","x":300,"y":420,"width":420,"height":130,"color":"6"},
+		{"id":"b6","type":"text","text":"6) response.done(purpose=text_enrichment)\n- parseStaffTextEnrichment\n- latestStaffEnrichment 갱신","x":300,"y":600,"width":420,"height":160,"color":"6"},
+		{"id":"b7","type":"text","text":"7) sendFsmEvent(model.done)\n-> applyFsmActions","x":760,"y":420,"width":360,"height":120,"color":"3"},
+		{"id":"b8","type":"text","text":"8) pendingPhase=none\nassistant playback fallback timer 세팅","x":760,"y":600,"width":360,"height":120,"color":"2"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"b1","fromSide":"bottom","toNode":"b2","toSide":"top"},
+		{"id":"e2","fromNode":"b2","fromSide":"left","toNode":"b3","toSide":"top"},
+		{"id":"e3","fromNode":"b3","fromSide":"bottom","toNode":"b4","toSide":"top"},
+		{"id":"e4","fromNode":"b2","fromSide":"bottom","toNode":"b5","toSide":"top"},
+		{"id":"e5","fromNode":"b5","fromSide":"bottom","toNode":"b6","toSide":"top"},
+		{"id":"e6","fromNode":"b2","fromSide":"right","toNode":"b7","toSide":"top"},
+		{"id":"e7","fromNode":"b2","fromSide":"right","toNode":"b8","toSide":"top"}
+	]
+}
