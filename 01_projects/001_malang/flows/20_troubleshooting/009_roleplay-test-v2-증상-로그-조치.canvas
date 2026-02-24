@@ -1,0 +1,41 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# roleplay-test-v2 증상 -> 로그 -> 조치\n빠른 운영 대응용 서브 캔버스","x":80,"y":-180,"width":780,"height":110,"color":"2"},
+		{"id":"howto","type":"text","text":"사용법\n1) 증상 카드 선택\n2) 로그 카드에서 동일 문구 확인\n3) 조치 카드 순서대로 적용\n4) 우측 코드 포인터(파일:라인)로 바로 이동","x":80,"y":-30,"width":780,"height":140,"color":"6"},
+		{"id":"priority","type":"text","text":"운영 우선순위 색상\n- P1 긴급(서비스 핵심 장애): 빨강(1)\n- P2 높음(주요 기능 저하): 주황(2)\n- P3 보통(품질 저하/개선): 노랑(3)","x":900,"y":-30,"width":620,"height":140,"color":"2"},
+		{"id":"sym1","type":"text","text":"[P1] 증상 1\n연결 시도 직후 바로 끊김","x":80,"y":170,"width":230,"height":100,"color":"1"},
+		{"id":"log1","type":"text","text":"로그 확인\n- FSM 종료 확정: Realtime 연결을 정리했습니다.\n- Realtime 연결 실패\n- connected=false로 즉시 전환","x":350,"y":160,"width":320,"height":130,"color":"3"},
+		{"id":"act1","type":"text","text":"조치\n1) ENDED 전이 조건 점검\n2) connect catch -> disconnect 경로 점검\n3) cleanup이 언마운트 외 실행되는지 점검","x":710,"y":160,"width":340,"height":130,"color":"4"},
+		{"id":"ref1","type":"text","text":"코드 포인터\n- hooks/use-roleplay-test-v2-page-model.tsx:422\n- hooks/use-roleplay-test-v2-realtime-session-lifecycle.ts:183\n- hooks/page-model/useRoleplayTestV2Cleanup.ts:23","x":1090,"y":155,"width":430,"height":145,"color":"5"},
+		{"id":"sym2","type":"text","text":"[P1] 증상 2\n오디오 출력이 안 들림","x":80,"y":350,"width":230,"height":100,"color":"1"},
+		{"id":"log2","type":"text","text":"로그 확인\n- ontrack 이벤트는 오는데 무음\n- 오디오 자동재생 대기: 사용자 인터랙션 후 재생될 수 있습니다.","x":350,"y":340,"width":320,"height":130,"color":"3"},
+		{"id":"act2","type":"text","text":"조치\n1) remoteStreamRef에 stream 저장 확인\n2) audio srcObject 재부착 확인\n3) play() 실패 시 사용자 인터랙션 후 재시도","x":710,"y":340,"width":340,"height":130,"color":"4"},
+		{"id":"ref2","type":"text","text":"코드 포인터\n- controllers/realtime/realtime-lifecycle-controller.ts:181\n- hooks/use-roleplay-test-v2-page-model.tsx:434\n- sections/ControlSection.tsx:262","x":1090,"y":335,"width":430,"height":145,"color":"5"},
+		{"id":"sym3","type":"text","text":"[P1] 증상 3\n오디오 입력(전사) 미수신","x":80,"y":530,"width":230,"height":100,"color":"1"},
+		{"id":"log3","type":"text","text":"로그 확인\n- USER 무시: speech_started 누락 + pendingPhase=...\n- USER 무시: 빈 전사\n- 음성 감지 후 전사 완료 이벤트가 오지 않았습니다.","x":350,"y":520,"width":320,"height":140,"color":"3"},
+		{"id":"act3","type":"text","text":"조치\n1) 마이크 권한/getUserMedia 성공 확인\n2) speech_started 이벤트 수신 여부 확인\n3) pendingPhase 조건과 transcript guard 확인","x":710,"y":520,"width":340,"height":140,"color":"4"},
+		{"id":"ref3","type":"text","text":"코드 포인터\n- controllers/realtime/realtime-lifecycle-controller.ts:217\n- controllers/realtime/realtime-turn-controller.ts:410\n- controllers/realtime/realtime-turn-controller.ts:374","x":1090,"y":515,"width":430,"height":155,"color":"5"},
+		{"id":"sym4","type":"text","text":"[P2] 증상 4\n통계 무한요청 / UI 재로딩 루프","x":80,"y":720,"width":230,"height":100,"color":"2"},
+		{"id":"log4","type":"text","text":"로그 확인\n- 최근 통계 로드 완료/실패 로그가 반복\n- setLoading 토글이 반복","x":350,"y":710,"width":320,"height":120,"color":"3"},
+		{"id":"act4","type":"text","text":"조치\n1) bootstrap useEffect deps에서 loadRoleplayStats 안정성 확인\n2) analysis ops 콜백 deps를 객체 전체가 아닌 setter/primitive로 유지","x":710,"y":700,"width":340,"height":140,"color":"4"},
+		{"id":"ref4","type":"text","text":"코드 포인터\n- hooks/page-model/useRoleplayTestV2ScenarioBootstrap.ts:55\n- hooks/use-roleplay-test-v2-analysis-ops.ts:118\n- hooks/use-roleplay-test-v2-analysis-ops.ts:119","x":1090,"y":695,"width":430,"height":155,"color":"5"},
+		{"id":"main","type":"file","file":"01_projects/001_malang/flows/10_overview/008_roleplay-test-v2-전체-흐름-트러블슈팅.canvas","x":920,"y":-180,"width":600,"height":130,"color":"2"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"sym1","fromSide":"right","toNode":"log1","toSide":"left"},
+		{"id":"e2","fromNode":"log1","fromSide":"right","toNode":"act1","toSide":"left"},
+		{"id":"e3","fromNode":"act1","fromSide":"right","toNode":"ref1","toSide":"left"},
+		{"id":"e4","fromNode":"sym2","fromSide":"right","toNode":"log2","toSide":"left"},
+		{"id":"e5","fromNode":"log2","fromSide":"right","toNode":"act2","toSide":"left"},
+		{"id":"e6","fromNode":"act2","fromSide":"right","toNode":"ref2","toSide":"left"},
+		{"id":"e7","fromNode":"sym3","fromSide":"right","toNode":"log3","toSide":"left"},
+		{"id":"e8","fromNode":"log3","fromSide":"right","toNode":"act3","toSide":"left"},
+		{"id":"e9","fromNode":"act3","fromSide":"right","toNode":"ref3","toSide":"left"},
+		{"id":"e10","fromNode":"sym4","fromSide":"right","toNode":"log4","toSide":"left"},
+		{"id":"e11","fromNode":"log4","fromSide":"right","toNode":"act4","toSide":"left"},
+		{"id":"e12","fromNode":"act4","fromSide":"right","toNode":"ref4","toSide":"left"},
+		{"id":"e13","fromNode":"title","fromSide":"bottom","toNode":"howto","toSide":"top"},
+		{"id":"e14","fromNode":"howto","fromSide":"bottom","toNode":"main","toSide":"top"},
+		{"id":"e15","fromNode":"title","fromSide":"bottom","toNode":"priority","toSide":"left"}
+	]
+}

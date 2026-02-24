@@ -1,0 +1,30 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# 기능 D: 수동 테스트 진입점\n음성 없이 텍스트/침묵 이벤트로 흐름 검증","x":60,"y":-180,"width":820,"height":110,"color":"5"},
+		{"id":"guide","type":"text","text":"읽는 순서\n레인 1(텍스트 강제) 또는 레인 2(침묵 강제) -> 공통 관찰 포인트","x":920,"y":-180,"width":520,"height":110,"color":"6"},
+		{"id":"lane-text","type":"text","text":"레인 1: 수동 텍스트 경로","x":60,"y":-30,"width":420,"height":80,"color":"5"},
+		{"id":"d1","type":"text","text":"sendManualText\n- 입력 검증\n- transcript/수집 로그 갱신","x":60,"y":70,"width":420,"height":130,"color":"5"},
+		{"id":"d2","type":"text","text":"requestSlotDetectionForTurn\n-> slot_detection 경로 재사용","x":60,"y":220,"width":420,"height":120,"color":"4"},
+		{"id":"d3","type":"text","text":"executeUserTurn\n-> sendFsmEvent(user.final)\n-> applyFsmActions","x":60,"y":360,"width":420,"height":140,"color":"3"},
+		{"id":"lane-silence","type":"text","text":"레인 2: 수동 침묵 경로","x":520,"y":-30,"width":420,"height":80,"color":"5"},
+		{"id":"d4","type":"text","text":"sendManualSilence(stage=1/2)\n-> sendFsmEvent(detect.silence)","x":520,"y":70,"width":420,"height":120,"color":"5"},
+		{"id":"d5","type":"text","text":"detect.silence 결과 actions\n-> applyFsmActions","x":520,"y":210,"width":420,"height":110,"color":"3"},
+		{"id":"obs","type":"text","text":"공통 관찰 포인트\n- state/currentSlot/missingSlots\n- assistant 응답 유무\n- guard/cancel 동작","x":980,"y":120,"width":420,"height":160,"color":"2"},
+		{"id":"back","type":"file","file":"01_projects/001_malang/flows/30_feature-lanes/005_프론트 시나리오 테스트 함수 맵 v2.canvas","x":520,"y":560,"width":420,"height":120,"color":"5"},
+		{"id":"quick","type":"text","text":"mini 퀵포인터\n- sendManualText: hooks/use-roleplay-test-v2-manual-actions.ts:53\n- sendManualSilence: hooks/use-roleplay-test-v2-manual-actions.ts:105\n- detect.silence 전송: hooks/use-roleplay-test-v2-manual-actions.ts:108","x":980,"y":560,"width":520,"height":140,"color":"5"},
+		{"id":"trigger","type":"text","text":"발생 조건 + 예시\n- 운영자/개발자가 수동 버튼을 눌렀을 때\n- 예: \"수동 텍스트 전송\" 클릭 -> sendManualText 경로 시작","x":980,"y":-40,"width":520,"height":110,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"d1","fromSide":"bottom","toNode":"d2","toSide":"top"},
+		{"id":"e2","fromNode":"d2","fromSide":"bottom","toNode":"d3","toSide":"top"},
+		{"id":"e3","fromNode":"d4","fromSide":"bottom","toNode":"d5","toSide":"top"},
+		{"id":"e4","fromNode":"d3","fromSide":"right","toNode":"obs","toSide":"left"},
+		{"id":"e5","fromNode":"d5","fromSide":"right","toNode":"obs","toSide":"left"},
+		{"id":"e6","fromNode":"title","fromSide":"right","toNode":"guide","toSide":"left"},
+		{"id":"e7","fromNode":"obs","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e8","fromNode":"back","fromSide":"right","toNode":"quick","toSide":"left"},
+		{"id":"e9","fromNode":"guide","fromSide":"bottom","toNode":"trigger","toSide":"top"},
+		{"id":"e10","fromNode":"trigger","fromSide":"left","toNode":"d1","toSide":"right"},
+		{"id":"e11","fromNode":"trigger","fromSide":"left","toNode":"d4","toSide":"right"}
+	]
+}

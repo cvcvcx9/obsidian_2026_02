@@ -1,0 +1,28 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# admin voip-v2-test 현재 로직 (2026-02-22)\n힌트 트리거 단일화 + 상태/UX/폴링 최적화","x":60,"y":-180,"width":860,"height":120,"color":"2"},
+		{"id":"trigger","type":"text","text":"[1] 트리거 단일화\nassistant transcript.done 수신 시\ntriggerHintRequestForAssistantUtterance 진입","x":60,"y":-20,"width":360,"height":150,"color":"4"},
+		{"id":"hint-request","type":"text","text":"[2] 힌트 요청\nrequestHintForAssistantUtterance 호출\n- normalized utterance 기준\n- trigger source 전달","x":460,"y":-20,"width":360,"height":160,"color":"5"},
+		{"id":"hint-state","type":"text","text":"[3] 힌트 상태 기록\n힌트 데이터 + 요청 메타 저장\n- hintSourceUtterance\n- hintRequestTimestamp\n- hintTriggerSource","x":860,"y":-20,"width":360,"height":180,"color":"6"},
+		{"id":"hint-ui","type":"text","text":"[4] 힌트 UI 표시\nHintSection에서 요청 근거/시각/트리거 소스 노출\n운영 디버깅 가시성 강화","x":1260,"y":-20,"width":360,"height":170,"color":"3"},
+		{"id":"polling","type":"text","text":"[보강 A] 상태 폴링 최적화\nVoipV2ApiTester\n- visibilitychange 기반 제어\n- backoff 적용","x":460,"y":220,"width":360,"height":160,"color":"4"},
+		{"id":"hooks","type":"text","text":"[보강 B] 스토어 접근 분리\ncustom hooks\n- useSession\n- useRealtime\n- useHint\n- useAssistantAnalysis","x":860,"y":220,"width":360,"height":170,"color":"4"},
+		{"id":"tests","type":"text","text":"[보강 C] 테스트 확장 기반\n__tests__ 골격 추가\n힌트/핸들러 회귀 케이스 준비","x":1260,"y":220,"width":360,"height":140,"color":"4"},
+		{"id":"doc","type":"file","file":"01_projects/001_malang/flows/41_improvement-specs/031_admin voip-v2-test 핸들러-슬라이스 개선 적용 요약 및 전략.md","x":60,"y":220,"width":360,"height":120,"color":"5"},
+		{"id":"checklist","type":"file","file":"01_projects/001_malang/flows/41_improvement-specs/006_개선 실행 체크리스트.md","x":60,"y":370,"width":360,"height":110,"color":"5"},
+		{"id":"legend","type":"text","text":"읽는 순서\n1) 상단 1~4 메인 흐름\n2) 하단 보강 A~C\n3) 좌측 문서 링크에서 세부 근거 확인","x":1000,"y":-200,"width":620,"height":130,"color":"6"},
+		{"id":"skill-canvas","type":"file","file":"01_projects/001_malang/flows/41_improvement-specs/032_handler-slice-refactor 스킬 맵.canvas","x":460,"y":420,"width":360,"height":110,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"trigger","fromSide":"right","toNode":"hint-request","toSide":"left"},
+		{"id":"e2","fromNode":"hint-request","fromSide":"right","toNode":"hint-state","toSide":"left"},
+		{"id":"e3","fromNode":"hint-state","fromSide":"right","toNode":"hint-ui","toSide":"left"},
+		{"id":"e4","fromNode":"hint-request","fromSide":"bottom","toNode":"polling","toSide":"top"},
+		{"id":"e5","fromNode":"hint-state","fromSide":"bottom","toNode":"hooks","toSide":"top"},
+		{"id":"e6","fromNode":"hint-ui","fromSide":"bottom","toNode":"tests","toSide":"top"},
+		{"id":"e7","fromNode":"doc","fromSide":"right","toNode":"trigger","toSide":"left"},
+		{"id":"e8","fromNode":"doc","fromSide":"bottom","toNode":"checklist","toSide":"top"},
+		{"id":"e9","fromNode":"title","fromSide":"right","toNode":"legend","toSide":"left"},
+		{"id":"e10","fromNode":"doc","fromSide":"right","toNode":"skill-canvas","toSide":"left"}
+	]
+}

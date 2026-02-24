@@ -1,0 +1,32 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# 기능 C: applyFsmActions 분기 지도\naction.type별 전송/후속 루프","x":60,"y":-180,"width":780,"height":110,"color":"3"},
+		{"id":"entry","type":"text","text":"입력\nactions[] 순회 -> action.type 분기","x":60,"y":-30,"width":780,"height":100,"color":"2"},
+		{"id":"lane-rt","type":"text","text":"레인 1: Realtime 전송 액션","x":60,"y":110,"width":560,"height":80,"color":"4"},
+		{"id":"c2","type":"text","text":"realtime.response_create\n-> sendResponseCreate","x":60,"y":210,"width":260,"height":110,"color":"4"},
+		{"id":"c3","type":"text","text":"realtime.response_cancel\n-> sendResponseCancel","x":340,"y":210,"width":260,"height":110,"color":"1"},
+		{"id":"c4","type":"text","text":"realtime.conversation_item_delete\n-> sendConversationItemDelete","x":60,"y":340,"width":260,"height":120,"color":"1"},
+		{"id":"c5","type":"text","text":"realtime.output_audio_buffer_clear\n-> sendDataChannelMessage","x":340,"y":340,"width":260,"height":120,"color":"2"},
+		{"id":"lane-ui","type":"text","text":"레인 2: UI 확인 액션","x":660,"y":110,"width":360,"height":80,"color":"6"},
+		{"id":"c6","type":"text","text":"ui.showEndConfirm\n-> requestEndConfirm\n-> sendFsmEvent(ui.end_confirm)","x":660,"y":210,"width":360,"height":150,"color":"6"},
+		{"id":"c7","type":"text","text":"followUp.actions 존재 시\n-> applyFsmActions 재호출(루프)","x":660,"y":390,"width":360,"height":120,"color":"3"},
+		{"id":"back","type":"file","file":"01_projects/001_malang/flows/30_feature-lanes/005_프론트 시나리오 테스트 함수 맵 v2.canvas","x":340,"y":560,"width":420,"height":120,"color":"5"},
+		{"id":"quick","type":"text","text":"mini 퀵포인터\n- applyFsmActions 진입: hooks/use-roleplay-test-v2-turn-ops.ts:114\n- response_create 분기: hooks/use-roleplay-test-v2-turn-ops.ts:149\n- showEndConfirm 분기: hooks/use-roleplay-test-v2-turn-ops.ts:192","x":800,"y":560,"width":520,"height":140,"color":"5"},
+		{"id":"trigger","type":"text","text":"발생 조건\n- sendFsmEvent 결과로 actions[]가 내려올 때\n- model.done, detect.silence, ui.end_confirm 이후 자주 진입","x":900,"y":-90,"width":520,"height":160,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"entry","fromSide":"bottom","toNode":"c2","toSide":"top"},
+		{"id":"e2","fromNode":"entry","fromSide":"bottom","toNode":"c3","toSide":"top"},
+		{"id":"e3","fromNode":"entry","fromSide":"bottom","toNode":"c4","toSide":"top"},
+		{"id":"e4","fromNode":"entry","fromSide":"bottom","toNode":"c5","toSide":"top"},
+		{"id":"e5","fromNode":"entry","fromSide":"bottom","toNode":"c6","toSide":"top"},
+		{"id":"e6","fromNode":"c6","fromSide":"bottom","toNode":"c7","toSide":"top"},
+		{"id":"e7","fromNode":"c7","fromSide":"top","toNode":"entry","toSide":"bottom"},
+		{"id":"e8","fromNode":"c2","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e9","fromNode":"c5","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e10","fromNode":"c7","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e11","fromNode":"back","fromSide":"right","toNode":"quick","toSide":"left"},
+		{"id":"e12","fromNode":"title","fromSide":"right","toNode":"trigger","toSide":"left"},
+		{"id":"e13","fromNode":"trigger","fromSide":"left","toNode":"entry","toSide":"right"}
+	]
+}

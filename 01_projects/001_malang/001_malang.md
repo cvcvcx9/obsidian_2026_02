@@ -30,6 +30,6 @@
 
 ## Linked Notes
 - Problems: [[01_projects/001_malang/problems/001_realtime-issues|001_realtime-issues]]
-- Flows: [[01_projects/001_malang/flows/000_기능 플로우 인덱스|기능 플로우 인덱스]]
+- Flows: [[01_projects/001_malang/flows/00_index/000_기능 플로우 인덱스|기능 플로우 인덱스]]
 - Logs: [[01_projects/001_malang/logs/000_로그 인덱스|로그 인덱스]]
 - Decisions: [[01_projects/001_malang/decisions/000_결정사항 인덱스|결정사항 인덱스]]

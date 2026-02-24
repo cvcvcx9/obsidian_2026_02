@@ -1,0 +1,39 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# 기능 A: 사용자 발화 처리\nspeech_started -> slot_detection -> user.final","x":60,"y":-180,"width":760,"height":110,"color":"4"},
+		{"id":"legend","type":"text","text":"읽는 순서\n1) 좌측 메인 파이프라인\n2) 우측 성공/실패 분기\n3) 하단 루프(재시도) 확인","x":860,"y":-180,"width":520,"height":110,"color":"6"},
+		{"id":"trigger","type":"text","text":"발생 조건\n- 사용자가 마이크로 말하기 시작할 때\n- speech_started -> 전사 완료 이벤트 순서로 진입","x":460,"y":-40,"width":420,"height":140,"color":"5"},
+		{"id":"lane-main","type":"text","text":"메인 파이프라인","x":60,"y":-40,"width":360,"height":80,"color":"2"},
+		{"id":"s1","type":"text","text":"[1] speech_started\n- output_audio_buffer.clear\n- 필요 시 response_cancel\n- 타이머/watchdog 초기화","x":60,"y":60,"width":360,"height":150,"color":"2"},
+		{"id":"s2","type":"text","text":"[2] input_audio_transcription.completed\n- transcript trim\n- 빈 문자열이면 종료","x":60,"y":230,"width":360,"height":130,"color":"2"},
+		{"id":"s3","type":"text","text":"[3] 전사 가드\n- speech_started 누락 fallback\n- low-signal 필터\n- dedupe window","x":60,"y":380,"width":360,"height":150,"color":"2"},
+		{"id":"s4","type":"text","text":"[4] requestSlotDetectionForTurn\n- pendingStages 계산\n- slot_detection response.create\n- pendingUserTurn 저장","x":60,"y":550,"width":360,"height":170,"color":"4"},
+		{"id":"s5","type":"text","text":"[5] response.done(slot_detection)\n- parseSlotDetectionResult","x":60,"y":740,"width":360,"height":110,"color":"4"},
+		{"id":"ok","type":"text","text":"성공 경로\n- filled slot 추출\n- executeUserTurn\n- sendFsmEvent(user.final)","x":460,"y":120,"width":360,"height":150,"color":"4"},
+		{"id":"end1","type":"text","text":"성공 종료\napplyFsmActions","x":460,"y":300,"width":360,"height":100,"color":"3"},
+		{"id":"fail","type":"text","text":"실패 경로\n- detectAttempt < max: 재시도\n- else detect.parse_fail","x":860,"y":120,"width":360,"height":140,"color":"1"},
+		{"id":"end2","type":"text","text":"실패 종료\nsendFsmEvent(detect.parse_fail)\n-> applyFsmActions","x":860,"y":290,"width":360,"height":120,"color":"1"},
+		{"id":"back","type":"file","file":"01_projects/001_malang/flows/30_feature-lanes/005_프론트 시나리오 테스트 함수 맵 v2.canvas","x":460,"y":900,"width":420,"height":120,"color":"5"},
+		{"id":"quick","type":"text","text":"mini 퀵포인터\n- speech_started: controllers/realtime/realtime-turn-controller.ts:380\n- slot_detection 요청: controllers/realtime/realtime-turn-controller.ts:455\n- parse/fallback 분기: controllers/realtime/realtime-turn-controller.ts:410,426","x":960,"y":880,"width":520,"height":140,"color":"5"},
+		{"id":"lane-branch","type":"text","text":"성공/실패 분기","x":960,"y":-20,"width":360,"height":80,"color":"6"},
+		{"id":"loop","type":"text","text":"재시도 루프\n실패(재시도 가능) -> [4] slot_detection 재요청","x":860,"y":500,"width":360,"height":100,"color":"2"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"s1","fromSide":"bottom","toNode":"s2","toSide":"top"},
+		{"id":"e2","fromNode":"s2","fromSide":"bottom","toNode":"s3","toSide":"top"},
+		{"id":"e3","fromNode":"s3","fromSide":"bottom","toNode":"s4","toSide":"top"},
+		{"id":"e4","fromNode":"s4","fromSide":"bottom","toNode":"s5","toSide":"top"},
+		{"id":"e5","fromNode":"s5","fromSide":"top","toNode":"ok","toSide":"bottom"},
+		{"id":"e6","fromNode":"s5","fromSide":"top","toNode":"fail","toSide":"bottom"},
+		{"id":"e7","fromNode":"ok","fromSide":"bottom","toNode":"end1","toSide":"top"},
+		{"id":"e8","fromNode":"fail","fromSide":"bottom","toNode":"end2","toSide":"top"},
+		{"id":"e9","fromNode":"fail","fromSide":"bottom","toNode":"loop","toSide":"top"},
+		{"id":"e10","fromNode":"loop","fromSide":"left","toNode":"s4","toSide":"right"},
+		{"id":"e11","fromNode":"title","fromSide":"right","toNode":"legend","toSide":"left"},
+		{"id":"e12","fromNode":"end1","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e13","fromNode":"end2","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e14","fromNode":"back","fromSide":"right","toNode":"quick","toSide":"left"},
+		{"id":"e15","fromNode":"title","fromSide":"bottom","toNode":"trigger","toSide":"top"},
+		{"id":"e16","fromNode":"trigger","fromSide":"left","toNode":"s1","toSide":"right"}
+	]
+}

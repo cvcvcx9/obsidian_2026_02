@@ -1,0 +1,28 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# handler-slice-refactor 스킬 맵\n이벤트/슬라이스/핸들러 분리 표준 가이드","x":60,"y":-220,"width":860,"height":120,"color":"2"},
+		{"id":"goals","type":"text","text":"목표\n- 동작 동일성 유지\n- 오케스트레이션/비즈니스 로직 분리\n- Zustand concern-based slice 분리\n- 검증 고정(lsp + lint + build)","x":60,"y":-40,"width":360,"height":190,"color":"4"},
+		{"id":"triggers","type":"text","text":"트리거 신호\n- split handlers\n- separate slices by concern\n- too many conditions\n- eventId/responseId intent unclear","x":460,"y":-40,"width":360,"height":170,"color":"5"},
+		{"id":"handler-rules","type":"text","text":"핸들러 규칙\n1) top-level은 router 역할만\n2) switch(event.type) 우선\n3) 의도 드러나는 helper 이름\n4) side-effect는 전용 handler로 격리","x":860,"y":-40,"width":360,"height":180,"color":"6"},
+		{"id":"slice-rules","type":"text","text":"슬라이스 규칙\n1) one slice = one concern\n2) payload shaping + normalization 같은 concern에 유지\n3) store.ts는 createXSlice 조합을 명시\n4) types.ts 경계를 slice와 일치","x":1260,"y":-40,"width":360,"height":180,"color":"3"},
+		{"id":"before","type":"text","text":"Before 패턴\n- 하나의 파일/함수에\n  라우팅 + 메타해석 + side effect + 상태변이 혼재\n- if 연쇄 분기 증가","x":460,"y":210,"width":360,"height":160,"color":"1"},
+		{"id":"after","type":"text","text":"After 패턴\n- switch 기반 router -> 목적별 handler 위임\n- session/hint/analysis/realtime/log slice 분리\n- 중복 side-effect는 key dedupe guard로 차단","x":860,"y":210,"width":360,"height":170,"color":"4"},
+		{"id":"checklist","type":"text","text":"실행 체크리스트\n1) mixed responsibility 맵핑\n2) handler 분리(행동 변화 없음)\n3) slice 분리(행동 변화 없음)\n4) UI/store wiring 재연결\n5) dedupe guard 확인\n6) diagnostics/lint/build","x":1260,"y":210,"width":360,"height":210,"color":"6"},
+		{"id":"anti","type":"text","text":"안티패턴\n- 이벤트 순서/타이밍 바꾸는 이동\n- transcript/done 양쪽에서 동일 side-effect 중복 호출\n- payload/normalize 로직 분산\n- 대상 외 광범위 리라이트","x":60,"y":210,"width":360,"height":190,"color":"1"},
+		{"id":"logic-canvas","type":"file","file":"01_projects/001_malang/flows/41_improvement-specs/031_admin voip-v2-test 현재 로직.canvas","x":860,"y":460,"width":380,"height":110,"color":"5"},
+		{"id":"strategy-doc","type":"file","file":"01_projects/001_malang/flows/41_improvement-specs/031_admin voip-v2-test 핸들러-슬라이스 개선 적용 요약 및 전략.md","x":1260,"y":460,"width":380,"height":110,"color":"5"},
+		{"id":"excalidraw-note","type":"file","file":"01_projects/001_malang/flows/41_improvement-specs/033_handler-slice-refactor 스킬 맵.excalidraw.md","x":860,"y":600,"width":380,"height":110,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"goals","fromSide":"right","toNode":"triggers","toSide":"left"},
+		{"id":"e2","fromNode":"triggers","fromSide":"right","toNode":"handler-rules","toSide":"left"},
+		{"id":"e3","fromNode":"handler-rules","fromSide":"right","toNode":"slice-rules","toSide":"left"},
+		{"id":"e4","fromNode":"triggers","fromSide":"bottom","toNode":"before","toSide":"top"},
+		{"id":"e5","fromNode":"before","fromSide":"right","toNode":"after","toSide":"left"},
+		{"id":"e6","fromNode":"after","fromSide":"right","toNode":"checklist","toSide":"left"},
+		{"id":"e7","fromNode":"anti","fromSide":"right","toNode":"before","toSide":"left"},
+		{"id":"e8","fromNode":"after","fromSide":"bottom","toNode":"logic-canvas","toSide":"top"},
+		{"id":"e9","fromNode":"checklist","fromSide":"bottom","toNode":"strategy-doc","toSide":"top"},
+		{"id":"e10","fromNode":"logic-canvas","fromSide":"bottom","toNode":"excalidraw-note","toSide":"top"}
+	]
+}

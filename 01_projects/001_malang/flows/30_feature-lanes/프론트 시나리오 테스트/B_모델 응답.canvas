@@ -1,0 +1,36 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# 기능 B: 모델 응답 후 후속 처리\nmodel.done, hint, enrichment, playback","x":60,"y":-180,"width":780,"height":110,"color":"6"},
+		{"id":"core","type":"text","text":"메인 시작점\nresponse.done(purpose=fsm_reply) -> assistantText 추출/저장","x":60,"y":-30,"width":780,"height":100,"color":"2"},
+		{"id":"hint-lane","type":"text","text":"레인 1: 힌트 흐름","x":60,"y":110,"width":360,"height":80,"color":"5"},
+		{"id":"h1","type":"text","text":"requestAutoHintIfNeeded\n- responseId dedupe\n- 조건 충족 시 requestHints","x":60,"y":210,"width":360,"height":140,"color":"5"},
+		{"id":"h2","type":"text","text":"requestHints\n-> /api/v2/hints","x":60,"y":370,"width":360,"height":100,"color":"5"},
+		{"id":"enrich-lane","type":"text","text":"레인 2: 텍스트 보강 흐름","x":460,"y":110,"width":360,"height":80,"color":"6"},
+		{"id":"e1","type":"text","text":"requestStaffTextEnrichment\n-> response.create(text_enrichment)","x":460,"y":210,"width":360,"height":120,"color":"6"},
+		{"id":"e2","type":"text","text":"response.done(purpose=text_enrichment)\n- parseStaffTextEnrichment\n- latestStaffEnrichment 갱신","x":460,"y":350,"width":360,"height":140,"color":"6"},
+		{"id":"fsm-lane","type":"text","text":"레인 3: FSM/재생 정리","x":860,"y":110,"width":360,"height":80,"color":"3"},
+		{"id":"f1","type":"text","text":"sendFsmEvent(model.done)\n-> applyFsmActions","x":860,"y":210,"width":360,"height":110,"color":"3"},
+		{"id":"f2","type":"text","text":"pendingPhase=none\nassistant playback fallback timer 세팅","x":860,"y":340,"width":360,"height":120,"color":"2"},
+		{"id":"back","type":"file","file":"01_projects/001_malang/flows/30_feature-lanes/005_프론트 시나리오 테스트 함수 맵 v2.canvas","x":460,"y":550,"width":420,"height":120,"color":"5"},
+		{"id":"quick","type":"text","text":"mini 퀵포인터\n- response.done 상태 로그: controllers/realtime/realtime-turn-controller.ts:275\n- auto hint 트리거: controllers/realtime/realtime-turn-controller.ts:301\n- text_enrichment 분기: controllers/realtime/realtime-turn-controller.ts:352","x":900,"y":550,"width":520,"height":140,"color":"5"},
+		{"id":"trigger","type":"text","text":"발생 조건 + 예시\n- assistant 발화가 끝나 response.done(fsm_reply) 수신될 때\n- 예: assistantText=\"주문 도와드릴게요\" -> 힌트/보강/FSM 후속 처리 시작","x":900,"y":-125,"width":560,"height":170,"color":"5"},
+		{"id":"voip-update","type":"text","text":"최신 반영 (2026-02-22)\nvoip-v2-test는 transcript.done 중심으로\n힌트 트리거를 단일화했고\n요청 메타정보/폴링 최적화를 추가","x":60,"y":550,"width":360,"height":150,"color":"6"},
+		{"id":"voip-canvas","type":"file","file":"01_projects/001_malang/flows/41_improvement-specs/031_admin voip-v2-test 현재 로직.canvas","x":60,"y":730,"width":360,"height":100,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"core","fromSide":"bottom","toNode":"h1","toSide":"top"},
+		{"id":"e2","fromNode":"core","fromSide":"bottom","toNode":"e1","toSide":"top"},
+		{"id":"e3","fromNode":"core","fromSide":"bottom","toNode":"f1","toSide":"top"},
+		{"id":"e4","fromNode":"h1","fromSide":"bottom","toNode":"h2","toSide":"top"},
+		{"id":"e5","fromNode":"e1","fromSide":"bottom","toNode":"e2","toSide":"top"},
+		{"id":"e6","fromNode":"f1","fromSide":"bottom","toNode":"f2","toSide":"top"},
+		{"id":"e7","fromNode":"h2","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e8","fromNode":"e2","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e9","fromNode":"f2","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e10","fromNode":"back","fromSide":"right","toNode":"quick","toSide":"left"},
+		{"id":"e11","fromNode":"title","fromSide":"right","toNode":"trigger","toSide":"left"},
+		{"id":"e12","fromNode":"trigger","fromSide":"left","toNode":"core","toSide":"right"},
+		{"id":"e13","fromNode":"h2","fromSide":"bottom","toNode":"voip-update","toSide":"top"},
+		{"id":"e14","fromNode":"voip-update","fromSide":"bottom","toNode":"voip-canvas","toSide":"top"}
+	]
+}

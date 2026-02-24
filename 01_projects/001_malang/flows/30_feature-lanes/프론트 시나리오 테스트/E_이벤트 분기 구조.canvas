@@ -1,0 +1,29 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# 워크플로우 E: 이벤트 분기 구조\nDataChannel 수신부터 routed/fallback까지","x":60,"y":-180,"width":780,"height":110,"color":"2"},
+		{"id":"legend","type":"text","text":"읽는 순서\n1) 수신(Ingress)\n2) 라우터 파이프라인(parse/gc/dedupe)\n3) routed -> fallback\n4) response.done 2차 분기","x":880,"y":-180,"width":600,"height":130,"color":"6"},
+		{"id":"ingress","type":"text","text":"Ingress\nDataChannel.onmessage\n-> handleRealtimeMessage","x":60,"y":-20,"width":320,"height":120,"color":"2"},
+		{"id":"router","type":"text","text":"Router 파이프라인\nparse -> gc -> dedupe -> routeRealtimeEvent","x":420,"y":-20,"width":360,"height":120,"color":"3"},
+		{"id":"routed","type":"text","text":"routed handler\n매칭되면 처리 후 종료","x":820,"y":-20,"width":280,"height":110,"color":"4"},
+		{"id":"fallback","type":"text","text":"fallback handler\n미처리 이벤트 후순위 처리","x":1140,"y":-20,"width":280,"height":110,"color":"5"},
+		{"id":"response-done","type":"text","text":"response.done 2차 분기\n- slot_detection\n- text_enrichment\n- fsm_reply","x":420,"y":140,"width":360,"height":140,"color":"6"},
+		{"id":"doc","type":"file","file":"01_projects/001_malang/flows/40_specs/roleplay-test-v2-이벤트-분기-폴더-구조.md","x":820,"y":130,"width":600,"height":180,"color":"4"},
+		{"id":"back","type":"file","file":"01_projects/001_malang/flows/30_feature-lanes/005_프론트 시나리오 테스트 함수 맵 v2.canvas","x":420,"y":340,"width":420,"height":120,"color":"5"},
+		{"id":"trigger","type":"text","text":"발생 조건\n- DataChannel.onmessage로 Realtime 이벤트를 수신할 때\n- 모든 이벤트는 여기(E)로 먼저 진입 후 분기됨","x":880,"y":-400,"width":600,"height":160,"color":"5"},
+		{"id":"quick","type":"text","text":"mini 퀵포인터\n- routeRealtimeEvent: hooks/use-roleplay-test-v2-realtime-runtime.ts:57\n- handleRealtimeMessage: hooks/use-roleplay-test-v2-realtime-runtime.ts:129\n- parseRealtimeEvent: controllers/realtime/realtime-message-controller.ts:81","x":30,"y":620,"width":600,"height":140,"color":"5"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"ingress","fromSide":"right","toNode":"router","toSide":"left"},
+		{"id":"e2","fromNode":"router","fromSide":"right","toNode":"routed","toSide":"left"},
+		{"id":"e3","fromNode":"router","fromSide":"right","toNode":"fallback","toSide":"left"},
+		{"id":"e4","fromNode":"router","fromSide":"bottom","toNode":"response-done","toSide":"top"},
+		{"id":"e5","fromNode":"response-done","fromSide":"right","toNode":"doc","toSide":"left"},
+		{"id":"e6","fromNode":"routed","fromSide":"bottom","toNode":"doc","toSide":"top"},
+		{"id":"e7","fromNode":"fallback","fromSide":"bottom","toNode":"doc","toSide":"top"},
+		{"id":"e8","fromNode":"title","fromSide":"right","toNode":"legend","toSide":"left"},
+		{"id":"e9","fromNode":"response-done","fromSide":"bottom","toNode":"back","toSide":"top"},
+		{"id":"e10","fromNode":"back","fromSide":"bottom","toNode":"quick","toSide":"right"},
+		{"id":"e11","fromNode":"title","fromSide":"right","toNode":"trigger","toSide":"left"},
+		{"id":"e12","fromNode":"trigger","fromSide":"left","toNode":"ingress","toSide":"right"}
+	]
+}
